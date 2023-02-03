@@ -1,0 +1,25 @@
+version: '3'
+services:
+  apache:
+    build: .
+    #volumes:
+     #- .:/var/www/html
+    ports:
+      - "80:80"
+      - "22:22"
+    networks:
+      - mynetwork
+  mariadb:
+    image: mariadb:latest
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=monkeyisland
+      - MYSQL_DATABASE=user_db
+      - MYSQL_USER=Threepwood
+      - MYSQL_PASSWORD=monkeyisland
+    networks:
+    - mynetwork
+networks:
+  mynetwork:
+    driver: bridge
